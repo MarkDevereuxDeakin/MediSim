@@ -8,11 +8,18 @@ AMediSimCharacter::AMediSimCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	// Create the Ability System Component
+	// Create the Ability System Component and attach it to the character
 	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
 
-	// Create the Cardiovascular Attribute Set
+	// Create the Cardiovascular Attribute Set and attach it to the character
 	CardiovascularAttributes = CreateDefaultSubobject<UCardiovascularAttributeSet>(TEXT("CardiovascularAttributes"));
+
+	// Ensure that the ASC is properly initialized and replicated
+	if (AbilitySystemComponent)
+	{
+		AbilitySystemComponent->SetIsReplicated(true); // Enable replication
+		AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal); // Choose replication mode
+	}
 }
 
 // Called when the game starts or when spawned
